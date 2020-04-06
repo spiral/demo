@@ -1,0 +1,7 @@
+.idea
+vendor
+runtime
+rr*
+spiral*
+.env
+.phpunit.result.cache
