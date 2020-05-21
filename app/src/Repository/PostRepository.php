@@ -5,6 +5,7 @@
  *
  * @author {author-name}
  */
+
 declare(strict_types=1);
 
 namespace App\Repository;
@@ -29,7 +30,7 @@ class PostRepository extends Repository
             ->load(
                 'comments.author',
                 [
-                    'load' => function (Select\QueryBuilder $q) {
+                    'load' => function (Select\QueryBuilder $q): void {
                         // last comments at top
                         $q->orderBy('id', 'DESC');
                     }

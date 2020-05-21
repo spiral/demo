@@ -13,12 +13,13 @@ namespace App;
 
 use App\Bootloader;
 use Spiral\Bootloader as Framework;
-use Spiral\DataGrid\Bootloader\GridBootloader;
+use Spiral\DataGrid\Bootloader as DataGrid;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
 use Spiral\Prototype\Bootloader as Prototype;
+use Spiral\Router\Bootloader as Router;
 use Spiral\Scaffolder\Bootloader as Scaffolder;
 use Spiral\Stempler\Bootloader as Stempler;
 
@@ -46,7 +47,7 @@ class App extends Kernel
         Nyholm\NyholmBootloader::class,
         Framework\Http\RouterBootloader::class,
         Framework\Http\JsonPayloadsBootloader::class,
-       // Framework\Http\ErrorHandlerBootloader::class,
+        Framework\Http\ErrorHandlerBootloader::class,
 
         // Databases
         Framework\Database\DatabaseBootloader::class,
@@ -68,25 +69,20 @@ class App extends Kernel
 
         // Framework commands
         Framework\CommandBootloader::class,
-        Scaffolder\ScaffolderBootloader::class,
 
         // Debug and debug extensions
         Framework\DebugBootloader::class,
         Framework\Debug\LogCollectorBootloader::class,
-        Framework\Debug\HttpCollectorBootloader::class
-    ];
+        Framework\Debug\HttpCollectorBootloader::class,
 
-    /*
-     * Application specific services and extensions.
-     */
-    protected const APP = [
-        GridBootloader::class,
+        DataGrid\GridBootloader::class,
+        Router\AnnotatedRoutesBootloader::class,
+
         Bootloader\AppBootloader::class,
-        Bootloader\RoutesBootloader::class,
-        Bootloader\FakerBootloader::class,
         Bootloader\FakerBootloader::class,
 
         // fast code prototyping
         Prototype\PrototypeBootloader::class,
+        Scaffolder\ScaffolderBootloader::class,
     ];
 }

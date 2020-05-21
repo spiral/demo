@@ -5,6 +5,7 @@
  *
  * @author {author-name}
  */
+
 declare(strict_types=1);
 
 namespace App\Command\Seed;
@@ -37,6 +38,8 @@ class CommentCommand extends Command
             $comment->author = $user;
             $comment->post = $post;
             $comment->message = $faker->sentence(12);
+
+            $this->sprintf("New comment: <info>%s</info>\n", $comment->message);
 
             $tr->persist($comment);
             $tr->run();

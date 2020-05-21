@@ -6,6 +6,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
 declare(strict_types=1);
 
 namespace App\Bootloader;
@@ -23,6 +24,6 @@ class AppBootloader extends DomainBootloader
     protected const INTERCEPTORS = [
         Domain\CycleInterceptor::class,
         Domain\GuardInterceptor::class,
-        Domain\FilterInterceptor::class
+        Domain\FilterInterceptor::class,
     ];
 }

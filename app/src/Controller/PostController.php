@@ -5,11 +5,11 @@
  *
  * @author {author-name}
  */
+
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Annotation\Route;
 use App\Database\Post;
 use App\Filter\CommentFilter;
 use App\Repository\PostRepository;
@@ -20,6 +20,7 @@ use Spiral\Core\Container\SingletonInterface;
 use Spiral\DataGrid\GridFactory;
 use Spiral\Http\Exception\ClientException\NotFoundException;
 use Spiral\Prototype\Traits\PrototypeTrait;
+use Spiral\Router\Annotation\Route;
 
 class PostController implements SingletonInterface
 {
@@ -47,7 +48,7 @@ class PostController implements SingletonInterface
     }
 
     /**
-     * @Route(action="/posts", verbs={"GET"})
+     * @Route(route="/posts", name="post.all", methods="GET")
      * @param GridFactory $grids
      * @return string
      */
@@ -59,7 +60,7 @@ class PostController implements SingletonInterface
     }
 
     /**
-     * @Route(action="/post/<id:\d+>", verbs={"GET"})
+     * @Route(route="/post/<id:\d+>", name="post.view", methods="GET")
      * @param string $id
      * @return string
      */
@@ -74,7 +75,7 @@ class PostController implements SingletonInterface
     }
 
     /**
-     * @Route(action="/api/post/<post:\d+>", verbs={"GET"})
+     * @Route(route="/api/post/<post:\d+>", name="post.get", methods="GET")
      * @param Post $post
      * @return ResponseInterface
      */
@@ -84,7 +85,7 @@ class PostController implements SingletonInterface
     }
 
     /**
-     * @Route(action="/api/post/<post:\d+>/comment", verbs={"POST"})
+     * @Route(route="/api/post/<post:\d+>/comment", name="post.comment", methods="POST")
      * @param Post          $post
      * @param CommentFilter $commentFilter
      * @return array
@@ -101,7 +102,7 @@ class PostController implements SingletonInterface
     }
 
     /**
-     * @Route(action="/api/post", verbs={"GET"})
+     * @Route(route="/api/post", name="post.list", methods="GET")
      * @param GridFactory $grids
      * @return array
      */
