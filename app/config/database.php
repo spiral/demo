@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Spiral\Database\Driver;
+use Cycle\Database\Config;
 
 return [
     'default'   => 'default',
@@ -10,11 +10,15 @@ return [
         'default' => ['driver' => 'default'],
     ],
     'drivers'   => [
-        'default' => [
-            'driver'     => Driver\MySQL\MySQLDriver::class,
-            'connection' => sprintf('mysql:host=%s;dbname=%s', env('DB_HOST'), env('DB_NAME')),
-            'username'   => env('DB_USER'),
-            'password'   => env('DB_PASSWORD'),
-        ],
+        'default' => new Config\MySQLDriverConfig(
+            connection: new Config\MySQL\TcpConnectionConfig(
+                database: env('DB_NAME'),
+                host: env('DB_HOST'),
+                port: (int) env('DB_PORT', 3306),
+                user: env('DB_USER'),
+                password: env('DB_PASSWORD')
+            ),
+            queryCache: true
+        ),
     ]
 ];

@@ -13,7 +13,7 @@ namespace App\Command\Seed;
 use App\Database\Comment;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
-use Cycle\ORM\TransactionInterface;
+use Cycle\ORM\EntityManagerInterface;
 use Faker\Generator;
 use Spiral\Console\Command;
 
@@ -23,10 +23,10 @@ class CommentCommand extends Command
 
     protected function perform(
         Generator $faker,
-        TransactionInterface $tr,
+        EntityManagerInterface $entityManager,
         UserRepository $userRepository,
         PostRepository $postRepository
-    ): void {
+    ): int {
         $users = $userRepository->findAll();
         $posts = $postRepository->findAll();
 
@@ -41,8 +41,10 @@ class CommentCommand extends Command
 
             $this->sprintf("New comment: <info>%s</info>\n", $comment->message);
 
-            $tr->persist($comment);
-            $tr->run();
+            $entityManager->persist($comment);
+            $entityManager->run();
         }
+
+        return self::SUCCESS;
     }
 }

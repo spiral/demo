@@ -10,20 +10,15 @@ declare(strict_types=1);
 
 namespace App\Database;
 
+use App\Repository\UserRepository;
 use Cycle\Annotated\Annotation as Cycle;
 
-/**
- * @Cycle\Entity(repository = "App\Repository\UserRepository")
- */
+#[Cycle\Entity(repository: UserRepository::class)]
 class User
 {
-    /**
-     * @Cycle\Column(type = "primary")
-     */
-    public $id;
+    #[Cycle\Column(type: 'primary')]
+    public int $id;
 
-    /**
-     * @Cycle\Column(type = "string")
-     */
-    public $name;
+    #[Cycle\Column(type: 'string')]
+    public string $name;
 }

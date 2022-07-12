@@ -13,6 +13,7 @@ namespace App\Bootloader;
 
 use Spiral\Bootloader\DomainBootloader;
 use Spiral\Core\CoreInterface;
+use Spiral\Cycle\Interceptor\CycleInterceptor;
 use Spiral\Domain;
 
 class AppBootloader extends DomainBootloader
@@ -22,7 +23,7 @@ class AppBootloader extends DomainBootloader
     ];
 
     protected const INTERCEPTORS = [
-        Domain\CycleInterceptor::class,
+        CycleInterceptor::class,
         Domain\GuardInterceptor::class,
         Domain\FilterInterceptor::class,
     ];
