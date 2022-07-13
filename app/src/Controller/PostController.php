@@ -26,32 +26,14 @@ class PostController implements SingletonInterface
 {
     use PrototypeTrait;
 
-    /** @var PostView */
-    private $postView;
-
-    /** @var PostRepository */
-    private $posts;
-
-    /** @var PostGrid */
-    private $postGrid;
-
-    /**
-     * @param PostView       $postView
-     * @param PostRepository $posts
-     * @param PostGrid       $postGrid
-     */
-    public function __construct(PostView $postView, PostRepository $posts, PostGrid $postGrid)
-    {
-        $this->postGrid = $postGrid;
-        $this->posts = $posts;
-        $this->postView = $postView;
+    public function __construct(
+        private PostView $postView,
+        private PostRepository $posts,
+        private PostGrid $postGrid
+    ) {
     }
 
-    /**
-     * @Route(route="/posts", name="post.all", methods="GET")
-     * @param GridFactory $grids
-     * @return string
-     */
+    #[Route(route: '/posts', name: 'post.all', methods: 'GET')]
     public function all(GridFactory $grids): string
     {
         $grid = $grids->create($this->posts->findAllWithAuthor(), $this->postGrid);
@@ -59,11 +41,7 @@ class PostController implements SingletonInterface
         return $this->views->render('posts', ['posts' => $grid]);
     }
 
-    /**
-     * @Route(route="/post/<id:\d+>", name="post.view", methods="GET")
-     * @param string $id
-     * @return string
-     */
+    #[Route(route: '/post/<id:\d+>', name: 'post.view', methods: 'GET')]
     public function view(string $id): string
     {
         $post = $this->posts->findOneWithComments($id);
@@ -74,22 +52,13 @@ class PostController implements SingletonInterface
         return $this->views->render('post', ['post' => $post]);
     }
 
-    /**
-     * @Route(route="/api/post/<post:\d+>", name="post.get", methods="GET")
-     * @param Post $post
-     * @return ResponseInterface
-     */
+    #[Route(route: '/api/post/<post:\d+>', name: 'post.get', methods: 'GET')]
     public function get(Post $post): ResponseInterface
     {
         return $this->postView->json($post);
     }
 
-    /**
-     * @Route(route="/api/post/<post:\d+>/comment", name="post.comment", methods="POST")
-     * @param Post          $post
-     * @param CommentFilter $commentFilter
-     * @return array
-     */
+    #[Route(route: '/api/post/<post:\d+>/comment', name: 'post.comment', methods: 'POST')]
     public function comment(Post $post, CommentFilter $commentFilter)
     {
         $this->commentService->comment(
@@ -101,11 +70,7 @@ class PostController implements SingletonInterface
         return ['status' => 201];
     }
 
-    /**
-     * @Route(route="/api/post", name="post.list", methods="GET")
-     * @param GridFactory $grids
-     * @return array
-     */
+    #[Route(route: '/api/post', name: 'post.list', methods: 'GET')]
     public function list(GridFactory $grids): array
     {
         $grid = $grids->create($this->posts->findAllWithAuthor(), $this->postGrid);

@@ -18,9 +18,7 @@ use Spiral\DataGrid\Specification\Sorter\Sorter;
 use Spiral\DataGrid\Specification\Value\IntValue;
 use Spiral\Prototype\Annotation\Prototyped;
 
-/**
- * @Prototyped(property="postGrid")
- */
+#[Prototyped(property: 'postGrid')]
 class PostGrid extends GridSchema
 {
     public function __construct()

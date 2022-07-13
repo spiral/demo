@@ -15,10 +15,12 @@ use App\Bootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\DataGrid\Bootloader as DataGrid;
 use Spiral\DotEnv\Bootloader as DotEnv;
+use Spiral\Cycle\Bootloader as CycleOrmBridge;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
 use Spiral\Prototype\Bootloader as Prototype;
+use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
 use Spiral\Router\Bootloader as Router;
 use Spiral\Scaffolder\Bootloader as Scaffolder;
 use Spiral\Stempler\Bootloader as Stempler;
@@ -35,13 +37,21 @@ class App extends Kernel
         Monolog\MonologBootloader::class,
         Bootloader\LoggingBootloader::class,
 
+        // RoadRunner
+        RoadRunnerBridge\CacheBootloader::class,
+        RoadRunnerBridge\HttpBootloader::class,
+        RoadRunnerBridge\QueueBootloader::class,
+        RoadRunnerBridge\RoadRunnerBootloader::class,
+
         // Core Services
         Framework\SnapshotsBootloader::class,
 
         // Security and validation
+        Framework\Security\EncrypterBootloader::class,
         Framework\Security\ValidationBootloader::class,
         Framework\Security\FiltersBootloader::class,
         Framework\Security\GuardBootloader::class,
+        CycleOrmBridge\ValidationBootloader::class,
 
         // HTTP extensions
         Nyholm\NyholmBootloader::class,
@@ -50,19 +60,17 @@ class App extends Kernel
         Framework\Http\ErrorHandlerBootloader::class,
 
         // Databases
-        Framework\Database\DatabaseBootloader::class,
-        Framework\Database\MigrationsBootloader::class,
+        CycleOrmBridge\DatabaseBootloader::class,
+        CycleOrmBridge\MigrationsBootloader::class,
 
         // ORM
-        Framework\Cycle\CycleBootloader::class,
-        Framework\Cycle\ProxiesBootloader::class,
-        Framework\Cycle\AnnotatedBootloader::class,
+        CycleOrmBridge\SchemaBootloader::class,
+        CycleOrmBridge\CycleOrmBootloader::class,
+        CycleOrmBridge\AnnotatedBootloader::class,
+        CycleOrmBridge\CommandBootloader::class,
 
         // Views and view translation
         Framework\Views\ViewsBootloader::class,
-
-        // Additional dispatchers
-        Framework\Jobs\JobsBootloader::class,
 
         // Extensions and bridges
         Stempler\StemplerBootloader::class,
@@ -84,5 +92,6 @@ class App extends Kernel
         // fast code prototyping
         Prototype\PrototypeBootloader::class,
         Scaffolder\ScaffolderBootloader::class,
+        CycleOrmBridge\ScaffolderBootloader::class,
     ];
 }

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Migration;
 
-use Spiral\Migrations\Migration;
+use Cycle\Migrations\Migration;
 
 class OrmDefault00ce2a110bd0587d5e1244b05381e9f6 extends Migration
 {

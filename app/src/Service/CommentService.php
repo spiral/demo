@@ -14,19 +14,15 @@ namespace App\Service;
 use App\Database\Comment;
 use App\Database\Post;
 use App\Database\User;
-use Cycle\ORM\TransactionInterface;
+use Cycle\ORM\EntityManagerInterface;
 use Spiral\Prototype\Annotation\Prototyped;
 
-/**
- * @Prototyped(property="commentService")
- */
+#[Prototyped(property: 'commentService')]
 class CommentService
 {
-    private $tr;
-
-    public function __construct(TransactionInterface $tr)
-    {
-        $this->tr = $tr;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function comment(Post $post, User $user, string $message): Comment
@@ -36,8 +32,8 @@ class CommentService
         $comment->author = $user;
         $comment->message = $message;
 
-        $this->tr->persist($comment);
-        $this->tr->run();
+        $this->entityManager->persist($comment);
+        $this->entityManager->run();
 
         return $comment;
     }

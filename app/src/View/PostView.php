@@ -17,20 +17,12 @@ use Spiral\Core\Container\SingletonInterface;
 use Spiral\Http\ResponseWrapper;
 use Spiral\Prototype\Annotation\Prototyped;
 
-/**
- * @Prototyped(property="postView")
- */
+#[Prototyped(property: 'postView')]
 class PostView implements SingletonInterface
 {
-    /** @var ResponseWrapper */
-    private $response;
-
-    /**
-     * @param ResponseWrapper $response
-     */
-    public function __construct(ResponseWrapper $response)
-    {
-        $this->response = $response;
+    public function __construct(
+        private ResponseWrapper $response
+    ) {
     }
 
     public function map(Post $post): array

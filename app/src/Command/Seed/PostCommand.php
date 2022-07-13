@@ -19,27 +19,17 @@ class PostCommand extends Command
 {
     protected const NAME = 'seed:post';
 
-    /** @var UserRepository */
-    private $users;
-
-    /** @var PostService */
-    private $postService;
-
-    /**
-     * @param UserRepository $users2
-     * @param PostService    $postService
-     * @param string|null    $name
-     */
-    public function __construct(UserRepository $users2, PostService $postService, ?string $name = null)
-    {
+    public function __construct(
+        private UserRepository $userRepository,
+        private PostService $postService,
+        ?string $name = null
+    ) {
         parent::__construct($name);
-        $this->postService = $postService;
-        $this->users = $users2;
     }
 
-    protected function perform(Generator $faker): void
+    protected function perform(Generator $faker): int
     {
-        $users = $this->users->findAll();
+        $users = $this->userRepository->findAll();
 
         for ($i = 0; $i < 1000; $i++) {
             $user = $users[array_rand($users)];
@@ -52,5 +42,7 @@ class PostCommand extends Command
 
             $this->sprintf("New post: <info>%s</info>\n", $post->title);
         }
+
+        return self::SUCCESS;
     }
 }
