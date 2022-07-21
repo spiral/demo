@@ -1,11 +1,5 @@
 <?php
 
-/**
- * {project-name}
- *
- * @author {author-name}
- */
-
 declare(strict_types=1);
 
 namespace App\Command\Seed;

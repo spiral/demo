@@ -1,22 +1,24 @@
+<p align="center">
+<img src="https://user-images.githubusercontent.com/2461257/112313394-d926c580-8cb8-11eb-84ea-717df4e4d167.png" width="400" alt="Spiral Framework">
+</p>
+
 # Spiral HTTP Application Skeleton [![Latest Stable Version](https://poser.pugx.org/spiral/app/version)](https://packagist.org/packages/spiral/app)
 
-<img src="https://user-images.githubusercontent.com/796136/67560465-9d827780-f723-11e9-91ac-9b2fafb027f2.png" height="135px" alt="Spiral Framework" align="left"/>
+Spiral Framework is a High-Performance PHP/Go Full-Stack framework and group of over sixty PSR-compatible components. The Framework execution model based on a hybrid runtime where some services (GRPC, Queue, WebSockets, etc.) handled by Application Server [RoadRunner](https://github.com/spiral/roadrunner) and the PHP code of your application stays in memory permanently (anti-memory leak tools included).
 
-Spiral Framework makes developing in PHP exciting again. It optimizes on the power of PHP to quickly develop business logic while uniquely leveraging Golang to craft an elegant infrastructure layer with native support for HTTP/2, GRPC, Queue, and more. Build faster, more efficient applications with this flexible and PSR compliant PHP7 framework (and have fun while you’re at it). 
-
-[App Skeleton](https://github.com/spiral/app) ([CLI](https://github.com/spiral/app-cli), [GRPC](https://github.com/spiral/app-grpc)) | [**Documentation**](https://spiral.dev/docs) | [Twitter](https://twitter.com/spiralphp) | [CHANGELOG](/CHANGELOG.md) | [Contributing](https://github.com/spiral/guide/blob/master/contributing.md)
+[App Skeleton](https://github.com/spiral/app) ([CLI](https://github.com/spiral/app-cli), [GRPC](https://github.com/spiral/app-grpc), [Admin Panel](https://github.com/spiral/app-keeper)) | [**Documentation**](https://spiral.dev/docs) | [Twitter](https://twitter.com/spiralphp) | [CHANGELOG](/CHANGELOG.md) | [Contributing](https://github.com/spiral/guide/blob/master/contributing.md)
 
 <br/>
 
-Server Requirements
---------
+## Server Requirements
+
 Make sure that your server is configured with following PHP version and extensions:
-* PHP 7.2+, 64bit
+* PHP 8.1+, 64bit
 * *mb-string* extension
 * PDO Extension with desired database drivers
 
-Application Bundle
---------
+## Application Bundle
+
 Application bundle includes the following components:
 * High-performance HTTP, HTTP/2 server based on [RoadRunner](https://roadrunner.dev)
 * Console commands via Symfony/Console
@@ -30,36 +32,38 @@ Application bundle includes the following components:
 * Prometheus metrics
 * [Cycle DataMapper ORM](https://github.com/cycle)
 
-Installation
---------
-```
+## Installation
+
+```bash
 composer create-project spiral/app
 ```
 
+> **Note**
 > Application server will be downloaded automatically (`php-curl` and `php-zip` required).
 
 Once the application is installed you can ensure that it was configured properly by executing:
 
-```
-$ php ./app.php configure
+```bash
+php ./app.php configure
 ```
 
 To start application server execute:
 
-```
-$ ./spiral serve -v -d
+```bash
+./rr serve
 ```
 
 On Windows:
 
-```$xslt
-$ spiral.exe serve -v -d
+```bash
+rr.exe serve
 ```
 
 Application will be available on `http://localhost:8080`.
 
+> **Note**
 > Read more about application server configuration [here](https://roadrunner.dev/docs).
 
-License:
---------
+## License:
+
 MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).

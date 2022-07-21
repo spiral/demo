@@ -13,7 +13,7 @@ static:
 
 http:
     address: 0.0.0.0:8080
-    middleware: [ "gzip", "websockets", "static" ]
+    middleware: [ "gzip", "static" ]
     static:
         dir: "public"
         forbid: [ ".php", ".htaccess" ]

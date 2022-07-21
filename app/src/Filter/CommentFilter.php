@@ -1,33 +1,24 @@
 <?php
 
-/**
- * {project-name}
- *
- * @author {author-name}
- */
-
 declare(strict_types=1);
 
 namespace App\Filter;
 
-use Spiral\Filters\Filter;
+use Spiral\Filters\Attribute\Input\Post;
+use Spiral\Filters\Dto\Filter;
+use Spiral\Filters\Dto\FilterDefinitionInterface;
+use Spiral\Filters\Dto\HasFilterDefinition;
+use Spiral\Validator\FilterDefinition;
 
-class CommentFilter extends Filter
+class CommentFilter extends Filter implements HasFilterDefinition
 {
-    protected const SCHEMA = [
-        'message' => 'data:message'
-    ];
+    #[Post(key: 'message')]
+    public readonly string $message;
 
-    protected const VALIDATES = [
-        'message' => ['notEmpty']
-    ];
-
-    protected const SETTERS = [
-        'message' => 'strval'
-    ];
-
-    public function getMessage(): string
+    public function filterDefinition(): FilterDefinitionInterface
     {
-        return $this->message;
+        return new FilterDefinition([
+            'message' => ['string', 'required']
+        ]);
     }
 }

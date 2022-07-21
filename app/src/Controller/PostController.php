@@ -1,11 +1,5 @@
 <?php
 
-/**
- * {project-name}
- *
- * @author {author-name}
- */
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -13,6 +7,7 @@ namespace App\Controller;
 use App\Database\Post;
 use App\Filter\CommentFilter;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use App\View\PostGrid;
 use App\View\PostView;
 use Psr\Http\Message\ResponseInterface;
@@ -29,6 +24,7 @@ class PostController implements SingletonInterface
     public function __construct(
         private PostView $postView,
         private PostRepository $posts,
+        private UserRepository $users,
         private PostGrid $postGrid
     ) {
     }
@@ -64,7 +60,7 @@ class PostController implements SingletonInterface
         $this->commentService->comment(
             $post,
             $this->users->findOne(), // todo: use current user
-            $commentFilter->getMessage()
+            $commentFilter->message
         );
 
         return ['status' => 201];

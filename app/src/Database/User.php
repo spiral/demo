@@ -1,24 +1,19 @@
 <?php
 
-/**
- * {project-name}
- *
- * @author {author-name}
- */
-
 declare(strict_types=1);
 
 namespace App\Database;
 
 use App\Repository\UserRepository;
-use Cycle\Annotated\Annotation as Cycle;
+use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Entity;
 
-#[Cycle\Entity(repository: UserRepository::class)]
+#[Entity(repository: UserRepository::class)]
 class User
 {
-    #[Cycle\Column(type: 'primary')]
+    #[Column(type: 'primary')]
     public int $id;
 
-    #[Cycle\Column(type: 'string')]
+    #[Column(type: 'string')]
     public string $name;
 }

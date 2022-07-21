@@ -1,40 +1,48 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Anton Titov (Wolfy-J)
- */
-
 declare(strict_types=1);
 
 namespace App;
 
 use App\Bootloader;
+use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
-use Spiral\DataGrid\Bootloader as DataGrid;
+use Spiral\DataGrid\Bootloader\GridBootloader;
 use Spiral\DotEnv\Bootloader as DotEnv;
-use Spiral\Cycle\Bootloader as CycleOrmBridge;
 use Spiral\Framework\Kernel;
 use Spiral\Monolog\Bootloader as Monolog;
 use Spiral\Nyholm\Bootloader as Nyholm;
 use Spiral\Prototype\Bootloader as Prototype;
-use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
-use Spiral\Router\Bootloader as Router;
+use Spiral\Router\Bootloader\AnnotatedRoutesBootloader;
+use Spiral\Sapi\Bootloader\SapiBootloader;
 use Spiral\Scaffolder\Bootloader as Scaffolder;
 use Spiral\Stempler\Bootloader as Stempler;
+use Spiral\Cycle\Bootloader as CycleBridge;
+use Spiral\RoadRunnerBridge\Bootloader as RoadRunnerBridge;
+use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
+use Spiral\Validation\Bootloader\ValidationBootloader;
+use Spiral\Validator\Bootloader\ValidatorBootloader;
+use Spiral\Views\Bootloader\ViewsBootloader;
 
 class App extends Kernel
 {
+    protected const SYSTEM = [
+        CoreBootloader::class,
+        TokenizerBootloader::class,
+        DotEnv\DotenvBootloader::class,
+    ];
+
     /*
      * List of components and extensions to be automatically registered
      * within system container on application start.
      */
     protected const LOAD = [
-        // Base extensions
-        DotEnv\DotenvBootloader::class,
+
+        // Logging and exceptions handling
         Monolog\MonologBootloader::class,
+        Bootloader\ExceptionHandlerBootloader::class,
+
+        // Application specific logs
         Bootloader\LoggingBootloader::class,
 
         // RoadRunner
@@ -48,50 +56,68 @@ class App extends Kernel
 
         // Security and validation
         Framework\Security\EncrypterBootloader::class,
-        Framework\Security\ValidationBootloader::class,
         Framework\Security\FiltersBootloader::class,
         Framework\Security\GuardBootloader::class,
-        CycleOrmBridge\ValidationBootloader::class,
+        ValidationBootloader::class,
+        ValidatorBootloader::class,
 
         // HTTP extensions
         Nyholm\NyholmBootloader::class,
         Framework\Http\RouterBootloader::class,
         Framework\Http\JsonPayloadsBootloader::class,
-        Framework\Http\ErrorHandlerBootloader::class,
+        SapiBootloader::class,
+        AnnotatedRoutesBootloader::class,
 
         // Databases
-        CycleOrmBridge\DatabaseBootloader::class,
-        CycleOrmBridge\MigrationsBootloader::class,
+        CycleBridge\DatabaseBootloader::class,
+        CycleBridge\MigrationsBootloader::class,
+        // CycleBridge\DisconnectsBootloader::class,
 
         // ORM
-        CycleOrmBridge\SchemaBootloader::class,
-        CycleOrmBridge\CycleOrmBootloader::class,
-        CycleOrmBridge\AnnotatedBootloader::class,
-        CycleOrmBridge\CommandBootloader::class,
+        CycleBridge\SchemaBootloader::class,
+        CycleBridge\CycleOrmBootloader::class,
+        CycleBridge\AnnotatedBootloader::class,
+        CycleBridge\CommandBootloader::class,
+
+        // DataGrid
+        GridBootloader::class,
+        CycleBridge\DataGridBootloader::class,
+
+        // Auth
+        // CycleBridge\AuthTokensBootloader::class,
+
+        // Entity checker
+        // CycleBridge\ValidationBootloader::class,
 
         // Views and view translation
-        Framework\Views\ViewsBootloader::class,
+        ViewsBootloader::class,
 
         // Extensions and bridges
         Stempler\StemplerBootloader::class,
 
         // Framework commands
         Framework\CommandBootloader::class,
+        Scaffolder\ScaffolderBootloader::class,
 
         // Debug and debug extensions
         Framework\DebugBootloader::class,
         Framework\Debug\LogCollectorBootloader::class,
         Framework\Debug\HttpCollectorBootloader::class,
 
-        DataGrid\GridBootloader::class,
-        Router\AnnotatedRoutesBootloader::class,
+        RoadRunnerBridge\CommandBootloader::class,
+    ];
 
+    /*
+     * Application specific services and extensions.
+     */
+    protected const APP = [
         Bootloader\AppBootloader::class,
+        Bootloader\RoutesBootloader::class,
         Bootloader\FakerBootloader::class,
 
         // fast code prototyping
         Prototype\PrototypeBootloader::class,
         Scaffolder\ScaffolderBootloader::class,
-        CycleOrmBridge\ScaffolderBootloader::class,
+        CycleBridge\ScaffolderBootloader::class,
     ];
 }
