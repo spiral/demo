@@ -44,6 +44,7 @@ return [
                 host: env('DB_HOST'),
                 port: (int) env('DB_PORT', 3306),
                 user: env('DB_USER'),
+                password: env('DB_PASSWORD')
             ),
             queryCache: true
         ),
