@@ -8,24 +8,25 @@ use App\Database\Post;
 use App\Filter\CommentFilter;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use App\Service\CommentService;
 use App\View\PostGrid;
 use App\View\PostView;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\DataGrid\GridFactory;
 use Spiral\Http\Exception\ClientException\NotFoundException;
-use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
+use Spiral\Views\ViewsInterface;
 
 class PostController implements SingletonInterface
 {
-    use PrototypeTrait;
-
     public function __construct(
         private PostView $postView,
         private PostRepository $posts,
         private UserRepository $users,
-        private PostGrid $postGrid
+        private PostGrid $postGrid,
+        private ViewsInterface $views,
+        private CommentService $commentService
     ) {
     }
 
