@@ -1,11 +1,5 @@
 <?php
 
-/**
- * {project-name}
- *
- * @author {author-name}
- */
-
 declare(strict_types=1);
 
 namespace App\Repository;
@@ -13,7 +7,9 @@ namespace App\Repository;
 use App\Database\Post;
 use Cycle\ORM\Select;
 use Cycle\ORM\Select\Repository;
+use Spiral\Prototype\Annotation\Prototyped;
 
+#[Prototyped(property: 'posts')]
 class PostRepository extends Repository
 {
     public function findAllWithAuthor(): Select

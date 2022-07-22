@@ -1,71 +1,60 @@
 <?php
 
-/**
- * Spiral Framework.
- *
- * @license   MIT
- * @author    Kairee Wu (krwu)
- */
-
 declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase as BaseTestCase;
-use Spiral\Boot\DirectoriesInterface;
-use Spiral\Boot\Environment;
-use Spiral\Files\Files;
-use Spiral\Http\Http;
+use Spiral\Config\ConfiguratorInterface;
+use Spiral\Config\Patch\Set;
+use Spiral\Core\Container;
+use Spiral\Testing\TestableKernelInterface;
+use Spiral\Testing\TestCase as BaseTestCase;
 use Spiral\Translator\TranslatorInterface;
-use Spiral\Views\ViewsInterface;
-use Tests\Traits\InteractsWithConsole;
-use Tests\Traits\InteractsWithHttp;
+use Tests\App\TestApp;
 
-abstract class TestCase extends BaseTestCase
+class TestCase extends BaseTestCase
 {
-    use InteractsWithConsole;
-    use InteractsWithHttp;
-
-    /** @var \Spiral\Boot\AbstractKernel */
-    protected $app;
-
-    /** @var \Spiral\Http\Http */
-    protected $http;
-
-    /** @var \Spiral\Views\ViewsInterface */
-    protected $views;
-
     protected function setUp(): void
     {
-        $this->app = $this->makeApp();
-        $this->http = $this->app->get(HTTP::class);
-        $this->views = $this->app->get(ViewsInterface::class);
-        $this->app->get(TranslatorInterface::class)->setLocale('en');
+        $this->beforeBooting(static function (ConfiguratorInterface $config): void {
+            if (! $config->exists('session')) {
+                return;
+            }
+
+            $config->modify('session', new Set('handler', null));
+        });
+
+        parent::setUp();
+
+        $this->getContainer()->get(TranslatorInterface::class)->setLocale('en');
+    }
+
+    public function createAppInstance(Container $container = new Container()): TestableKernelInterface
+    {
+        return TestApp::create(
+            directories: $this->defineDirectories(
+                $this->rootDirectory()
+            ),
+            handleErrors: false,
+            container: $container
+        );
     }
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
-        $fs = new Files();
-
-        if ($fs->isDirectory(__DIR__ . '/../app/migrations')) {
-            $fs->deleteDirectory(__DIR__ . '/../app/migrations');
-        }
-
-        $runtime = $this->app->get(DirectoriesInterface::class)->get('runtime');
-        if ($fs->isDirectory($runtime)) {
-            $fs->deleteDirectory($runtime);
-        }
+        // Uncomment this line if you want to clean up runtime directory.
+        // $this->cleanUpRuntimeDirectory();
     }
 
-    protected function makeApp(array $env = []): TestApp
+    public function rootDirectory(): string
     {
-        return TestApp::init([
-            'root' => __DIR__ . '/../',
-            'app' => __DIR__ . '/../app',
-            'runtime' => __DIR__ . '/../runtime/tests',
-            'cache' => __DIR__ . '/../runtime/tests'
-        ], new Environment($env), false);
+        return __DIR__.'/..';
+    }
+
+    public function defineDirectories(string $root): array
+    {
+        return [
+            'root' => $root,
+        ];
     }
 }

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * {project-name}
- *
- * @author {author-name}
- */
-
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -13,23 +7,26 @@ namespace App\Controller;
 use App\Database\Post;
 use App\Filter\CommentFilter;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
+use App\Service\CommentService;
 use App\View\PostGrid;
 use App\View\PostView;
 use Psr\Http\Message\ResponseInterface;
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\DataGrid\GridFactory;
 use Spiral\Http\Exception\ClientException\NotFoundException;
-use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
+use Spiral\Views\ViewsInterface;
 
 class PostController implements SingletonInterface
 {
-    use PrototypeTrait;
-
     public function __construct(
         private PostView $postView,
         private PostRepository $posts,
-        private PostGrid $postGrid
+        private UserRepository $users,
+        private PostGrid $postGrid,
+        private ViewsInterface $views,
+        private CommentService $commentService
     ) {
     }
 
@@ -64,7 +61,7 @@ class PostController implements SingletonInterface
         $this->commentService->comment(
             $post,
             $this->users->findOne(), // todo: use current user
-            $commentFilter->getMessage()
+            $commentFilter->message
         );
 
         return ['status' => 201];
