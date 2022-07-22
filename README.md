@@ -8,15 +8,15 @@ Spiral Framework makes developing in PHP exciting again. It optimizes on the pow
 
 <br/>
 
-Server Requirements
---------
+## Server Requirements
+
 Make sure that your server is configured with following PHP version and extensions:
-* PHP 7.2+, 64bit
+* PHP 8.0+, 64bit
 * *mb-string* extension
 * PDO Extension with desired database drivers
 
-Application Bundle
---------
+## Application Bundle
+
 Application bundle includes the following components:
 * High-performance HTTP, HTTP/2 server based on [RoadRunner](https://roadrunner.dev)
 * Console commands via Symfony/Console
@@ -30,36 +30,38 @@ Application bundle includes the following components:
 * Prometheus metrics
 * [Cycle DataMapper ORM](https://github.com/cycle)
 
-Installation
---------
+## Installation
+
 ```
 composer create-project spiral/app
 ```
 
+> **Note**
 > Application server will be downloaded automatically (`php-curl` and `php-zip` required).
 
 Once the application is installed you can ensure that it was configured properly by executing:
 
 ```
-$ php ./app.php configure
+php ./app.php configure
 ```
 
 To start application server execute:
 
 ```
-$ ./spiral serve -v -d
+./rr serve
 ```
 
 On Windows:
 
 ```$xslt
-$ spiral.exe serve -v -d
+rr.exe serve
 ```
 
 Application will be available on `http://localhost:8080`.
 
+> **Note**
 > Read more about application server configuration [here](https://roadrunner.dev/docs).
 
-License:
---------
+## License:
+
 MIT License (MIT). Please see [`LICENSE`](./LICENSE) for more information. Maintained by [Spiral Scout](https://spiralscout.com).
