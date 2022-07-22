@@ -17,15 +17,6 @@ class Post
     #[Column(type: 'primary')]
     public int $id;
 
-    #[Column(type: 'string')]
-    public string $title;
-
-    #[Column(type: 'text')]
-    public string $content;
-
-    #[Relation\BelongsTo(target: User::class, nullable: false)]
-    public User $author;
-
     /**
      * @var Collection|Comment[]
      * @psalm-var Collection<int, Comment>
@@ -33,8 +24,16 @@ class Post
     #[Relation\HasMany(target: Comment::class)]
     public Collection $comments;
 
-    public function __construct()
-    {
+    public function __construct(
+        #[Column(type: 'string')]
+        public string $title,
+
+        #[Column(type: 'text')]
+        public string $content,
+
+        #[Relation\BelongsTo(target: User::class, nullable: false)]
+        public User $author
+    ) {
         $this->comments = new ArrayCollection();
     }
 }

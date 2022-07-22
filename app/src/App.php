@@ -7,6 +7,7 @@ namespace App;
 use App\Bootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
+use Spiral\DatabaseSeeder\Bootloader\DatabaseSeederBootloader;
 use Spiral\DataGrid\Bootloader\GridBootloader;
 use Spiral\DotEnv\Bootloader as DotEnv;
 use Spiral\Framework\Kernel;
@@ -105,6 +106,7 @@ class App extends Kernel
         Framework\Debug\HttpCollectorBootloader::class,
 
         RoadRunnerBridge\CommandBootloader::class,
+        DatabaseSeederBootloader::class,
     ];
 
     /*
@@ -113,7 +115,6 @@ class App extends Kernel
     protected const APP = [
         Bootloader\AppBootloader::class,
         Bootloader\RoutesBootloader::class,
-        Bootloader\FakerBootloader::class,
 
         // fast code prototyping
         Prototype\PrototypeBootloader::class,

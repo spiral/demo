@@ -27,10 +27,7 @@ class CommentService
 
     public function comment(Post $post, User $user, string $message): Comment
     {
-        $comment = new Comment();
-        $comment->post = $post;
-        $comment->author = $user;
-        $comment->message = $message;
+        $comment = new Comment($message, $user, $post);
 
         $this->entityManager->persist($comment);
         $this->entityManager->run();

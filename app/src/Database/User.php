@@ -14,6 +14,9 @@ class User
     #[Column(type: 'primary')]
     public int $id;
 
-    #[Column(type: 'string')]
-    public string $name;
+    public function __construct(
+        #[Column(type: 'string')]
+        public string $name
+    ) {
+    }
 }

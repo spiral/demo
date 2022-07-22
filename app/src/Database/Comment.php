@@ -14,12 +14,15 @@ class Comment
     #[Column(type: 'primary')]
     public int $id;
 
-    #[Column(type: 'string')]
-    public string $message;
+    public function __construct(
+        #[Column(type: 'string')]
+        public string $message,
 
-    #[Relation\BelongsTo(target: User::class, nullable: false)]
-    public User $author;
+        #[Relation\BelongsTo(target: User::class, nullable: false)]
+        public User $author,
 
-    #[Relation\BelongsTo(target: Post::class, nullable: false)]
-    public Post $post;
+        #[Relation\BelongsTo(target: Post::class, nullable: false)]
+        public Post $post
+    ) {
+    }
 }
