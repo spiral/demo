@@ -98,7 +98,10 @@ class App extends Kernel
 
         // Framework commands
         Framework\CommandBootloader::class,
+
+        // Scaffolding
         Scaffolder\ScaffolderBootloader::class,
+        CycleBridge\ScaffolderBootloader::class,
 
         // Debug and debug extensions
         Framework\DebugBootloader::class,
@@ -118,7 +121,6 @@ class App extends Kernel
 
         // fast code prototyping
         Prototype\PrototypeBootloader::class,
-        Scaffolder\ScaffolderBootloader::class,
-        CycleBridge\ScaffolderBootloader::class,
+        CycleBridge\PrototypeBootloader::class,
     ];
 }
