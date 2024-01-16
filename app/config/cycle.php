@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 use Cycle\ORM\Collection\ArrayCollectionFactory;
 use Cycle\ORM\Collection\DoctrineCollectionFactory;
+use Cycle\ORM\Collection\IlluminateCollectionFactory;
+use Cycle\ORM\Collection\LoophpCollectionFactory;
 
+/**
+ * Configuration for Cycle ORM.
+ *
+ * @link https://spiral.dev/docs/basics-orm#orm
+ */
 return [
     'schema' => [
         /**
@@ -25,16 +32,13 @@ return [
             // SchemaInterface::REPOSITORY => \Cycle\ORM\Select\Repository::class,
             // SchemaInterface::SCOPE => null,
             // SchemaInterface::TYPECAST_HANDLER => [
-            //    \Cycle\ORM\Parser\Typecast::class
+            //    \Cycle\ORM\Parser\Typecast::class,
             // ],
         ],
 
         'collections' => [
             'default' => 'doctrine',
-            'factories' => [
-                'array' => new ArrayCollectionFactory(),
-                'doctrine' => new DoctrineCollectionFactory(),
-            ],
+            'factories' => ['doctrine' => new DoctrineCollectionFactory()],
         ],
 
         /**

@@ -6,6 +6,9 @@ namespace App\Repository;
 
 use Cycle\ORM\Select\Repository;
 
+use Spiral\Prototype\Annotation\Prototyped;
+
+#[Prototyped(property: 'users')]
 class UserRepository extends Repository
 {
 }

@@ -28,6 +28,9 @@ class CommentFactory extends AbstractFactory
         return new Comment($definition['message'], $definition['author'], $definition['post']);
     }
 
+    /**
+     * Generate Comment with given author
+     */
     public function withAuthor(User $author): self
     {
         return $this->state(fn(Generator $faker, array $definition) => [
@@ -35,6 +38,9 @@ class CommentFactory extends AbstractFactory
         ]);
     }
 
+    /**
+     * Generate Comment with given post
+     */
     public function withPost(Post $post): self
     {
         return $this->state(fn(Generator $faker, array $definition) => [
