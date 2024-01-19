@@ -10,14 +10,14 @@ use Spiral\Core\Container;
 use Spiral\Testing\TestableKernelInterface;
 use Spiral\Testing\TestCase as BaseTestCase;
 use Spiral\Translator\TranslatorInterface;
-use Tests\App\TestApp;
+use Tests\App\TestKernel;
 
 class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
         $this->beforeBooting(static function (ConfiguratorInterface $config): void {
-            if (! $config->exists('session')) {
+            if (!$config->exists('session')) {
                 return;
             }
 
@@ -26,17 +26,20 @@ class TestCase extends BaseTestCase
 
         parent::setUp();
 
-        $this->getContainer()->get(TranslatorInterface::class)->setLocale('en');
+        $container = $this->getContainer();
+
+        if ($container->has(TranslatorInterface::class)) {
+            $container->get(TranslatorInterface::class)->setLocale('en');
+        }
     }
 
     public function createAppInstance(Container $container = new Container()): TestableKernelInterface
     {
-        return TestApp::create(
+        return TestKernel::create(
             directories: $this->defineDirectories(
-                $this->rootDirectory()
+                $this->rootDirectory(),
             ),
-            handleErrors: false,
-            container: $container
+            container: $container,
         );
     }
 
@@ -48,7 +51,7 @@ class TestCase extends BaseTestCase
 
     public function rootDirectory(): string
     {
-        return __DIR__.'/..';
+        return __DIR__ . '/..';
     }
 
     public function defineDirectories(string $root): array

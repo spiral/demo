@@ -27,6 +27,9 @@ class PostFactory extends AbstractFactory
         return new Post($definition['title'], $definition['content'], $definition['author']);
     }
 
+    /**
+     * Generate Post with given author
+     */
     public function withAuthor(User $author): self
     {
         return $this->state(fn(Generator $faker, array $definition) => [

@@ -2,7 +2,9 @@
 vendor
 runtime
 rr*
-spiral*
+protoc-gen-php-grpc*
 .env
 .phpunit.result.cache
-composer.lock
+.phpunit.cache
+.deptrac.cache
+.phpunit.cache/

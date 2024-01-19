@@ -7,8 +7,10 @@ namespace Database\Seeder;
 use Database\Factory\CommentFactory;
 use Database\Factory\PostFactory;
 use Database\Factory\UserFactory;
+use Spiral\DatabaseSeeder\Attribute\Seeder;
 use Spiral\DatabaseSeeder\Seeder\AbstractSeeder;
 
+#[Seeder]
 class BlogSeeder extends AbstractSeeder
 {
     public function run(): \Generator

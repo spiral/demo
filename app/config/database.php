@@ -4,7 +4,19 @@ declare(strict_types=1);
 
 use Cycle\Database\Config;
 
+/**
+ * In this file, you may define all of your database connections, as well as specify which connection should be used
+ * by default. Most of the configuration options within this file are driven by the values of your application's
+ * environment variables.
+ *
+ * @link https://spiral.dev/docs/basics-orm#database
+ */
 return [
+    /**
+     * Log database queries through the use of the spiral/logger component.
+     *
+     * @link https://spiral.dev/docs/basics-orm#logging
+     */
     'logger' => [
         'default' => null,
         'drivers' => [
@@ -18,7 +30,7 @@ return [
     'default' => 'default',
 
     /**
-     * The Spiral/Database module provides support to manage multiple databases
+     * The cycle/database package provides support to manage multiple databases
      * in one application, use read/write connections and logically separate
      * multiple databases within one connection using prefixes.
      *
@@ -27,7 +39,7 @@ return [
      */
     'databases' => [
         'default' => [
-            'driver' => 'default',
+            'driver' => env('DB_CONNECTION', 'sqlite'),
         ],
     ],
 
@@ -38,15 +50,32 @@ return [
      * the driver class and its connection options.
      */
     'drivers' => [
-        'default' => new Config\MySQLDriverConfig(
-            connection: new Config\MySQL\TcpConnectionConfig(
-                database: env('DB_NAME'),
-                host: env('DB_HOST'),
-                port: (int) env('DB_PORT', 3306),
-                user: env('DB_USER'),
-                password: env('DB_PASSWORD')
+        'sqlite' => new Config\SQLiteDriverConfig(
+            connection: new Config\SQLite\FileConnectionConfig(
+                database: directory('runtime') . '/db.sqlite'
             ),
             queryCache: true
+        ),
+        'pgsql' => new Config\PostgresDriverConfig(
+            connection: new Config\Postgres\TcpConnectionConfig(
+                database: env('DB_DATABASE', 'spiral'),
+                host: env('DB_HOST', '127.0.0.1'),
+                port: (int)env('DB_PORT', 5432),
+                user: env('DB_USERNAME', 'postgres'),
+                password: env('DB_PASSWORD', ''),
+            ),
+            schema: 'public',
+            queryCache: true,
+        ),
+        'mysql' => new Config\MySQLDriverConfig(
+            connection: new Config\MySQL\TcpConnectionConfig(
+                database: env('DB_DATABASE', 'spiral'),
+                host: env('DB_HOST', '127.0.0.1'),
+                port: (int)env('DB_PORT', 3307),
+                user: env('DB_USERNAME', 'root'),
+                password: env('DB_PASSWORD', ''),
+            ),
+            queryCache: true,
         ),
         // ...
     ],
